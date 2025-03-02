@@ -8,13 +8,22 @@ movies_dict = pickle.load(open('movies.pkl', 'rb'))
 movies_df = pd.DataFrame(movies_dict)  # Convert dictionary to DataFrame
 
 # Load similarity matrix
-similarity = pickle.load(open('similarity.pkl', 'rb'))
+import os
+import zipfile
+
+# Unzip similarity.pkl if not already extracted
+if not os.path.exists("similarity.pkl"):
+    with zipfile.ZipFile("similarity.zip", "r") as zip_ref:
+        zip_ref.extractall()
+
+import pickle
+similarity = pickle.load(open("similarity.pkl", "rb"))
+
 
 # Get movie titles
 movies_list = movies_df['title'].values
 
 from dotenv import load_dotenv
-import os
 
 # Load environment variables from .env file
 load_dotenv()
